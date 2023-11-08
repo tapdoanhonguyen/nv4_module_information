@@ -1,8 +1,8 @@
 # nv4_module_information
 
-#autoload_static.php
+# autoload_static.php
 
-# $prefixLengthsPsr4 :
+* $prefixLengthsPsr4 :
         'P' => 
         array (
           'Psr\\SimpleCache\\' => 16,
@@ -12,7 +12,7 @@
            );
     );
 
-# $prefixDirsPsr4 : 
+* $prefixDirsPsr4 : 
        'Psr\\SimpleCache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/simple-cache/src',
