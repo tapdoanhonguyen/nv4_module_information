@@ -5,7 +5,7 @@
  * @Author VINADES.,JSC <contact@vinades.vn>
  * @Copyright (C) 2023 VINADES.,JSC. All rights reserved
  * @License: Not free read more http://nukeviet.vn/vi/store/modules/nvtools/
- * @Createdate Sun, 12 Nov 2023 08:09:24 GMT
+ * @Createdate Mon, 13 Nov 2023 15:37:58 GMT
  */
 
 if (!defined('NV_IS_FILE_MODULES'))
@@ -14,6 +14,7 @@ if (!defined('NV_IS_FILE_MODULES'))
 $sql_drop_module = array();
 $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_cat";
 $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_data";
+$sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_form";
 
 $sql_create_module = $sql_drop_module;
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_cat(
@@ -42,9 +43,20 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
   iday int(11) NOT NULL DEFAULT 0,
   imonth int(11) NOT NULL DEFAULT 0,
   iyear int(11) NOT NULL DEFAULT 0,
+  itype varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'y',
   idata int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (id),
   KEY data (code,iday,imonth,iyear)
+) ENGINE=MyISAM";
+
+$sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_form(
+  id int(11) NOT NULL AUTO_INCREMENT,
+  code varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  catid int(11) NOT NULL DEFAULT 0,
+  title varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  itype varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'y',
+  PRIMARY KEY (id),
+  KEY code (code(100))
 ) ENGINE=MyISAM";
 
 $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . "(lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'auto_postcomm', '1')";

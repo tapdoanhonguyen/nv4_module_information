@@ -13,4 +13,5 @@ if (!defined('NV_ADMIN'))
 
 $submenu['config'] = $lang_module['config'];
 $submenu['cat'] = $lang_module['cat'];
+$submenu['form'] = $lang_module['form'];
 $submenu['import'] = $lang_module['import'];

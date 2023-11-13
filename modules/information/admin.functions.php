@@ -13,7 +13,7 @@ if (!defined('NV_ADMIN') or !defined('NV_MAINFILE') or !defined('NV_IS_MODADMIN'
 
 define('NV_IS_FILE_ADMIN', true);
 
-$allow_func = array('main', 'config', 'import', 'cat', 'del_cat', 'chang_cat');
+$allow_func = array('main', 'config', 'import', 'cat', 'del_cat', 'chang_cat', 'form');
 global $global_array_cat;
 $global_array_cat = [];
 $sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_cat ORDER BY sort ASC';

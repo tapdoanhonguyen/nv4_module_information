@@ -38,3 +38,12 @@ $lang_module['groups_view'] = 'Groups view';
 $lang_module['error_required_parentid'] = 'Error: Required fields enter the Parentid';
 $lang_module['error_required_title'] = 'Error: Required fields enter the Title';
 $lang_module['error_required_code'] = 'Error: Required fields enter the Code';
+
+//Lang for function form
+$lang_module['form'] = 'form';
+$lang_module['catid'] = 'Catid';
+$lang_module['error_required_catid'] = 'Error: Required fields enter the Catid';
+
+//Lang for function form
+$lang_module['itype'] = 'Itype';
+$lang_module['error_required_itype'] = 'Error: Required fields enter the Itype';

@@ -21,13 +21,25 @@ if($mod=="cat"){
     $q=$nv_Request->get_string('q', 'get','');
 
     $list = $db->query('SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_cat WHERE title LIKE "%' . $q . '%" AND parentid = 0 ')->fetchAll();
-foreach($list as $result){
-    $json[] = ['id'=>$result['id'], 'text'=>$result['title']];
+	foreach($list as $result){
+		$json[] = ['id'=>$result['id'], 'text'=>$result['title']];
+	}
+	print_r(json_encode($json));die(); 
 }
-print_r(json_encode($json));die(); 
+if($mod=="form"){
+    $q=$nv_Request->get_string('q', 'get','');
+    $catid=$nv_Request->get_int('catid', 'get',0);
+    $year=$nv_Request->get_int('year', 'get',0);
+	if($year>0){
+		$form = $db->query('SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_form WHERE title LIKE "%' . $q . '%" AND catid = ' . $catid)->fetchAll();
+		foreach($form as $result){
+			$json[] = ['id'=>$result['id'], 'text'=>$result['title'] . ' năm ' . $year];
+		}
+	}
+	print_r(json_encode($json));die(); 
 }
 $savecat = $nv_Request->get_int('savecat', 'post', 0);
-
+$array_datas = array();
 if($savecat){
 	$catid = $nv_Request->get_int('cat', 'post', 0);
 	$iday = $nv_Request->get_int('iday', 'post', 0);
@@ -38,11 +50,12 @@ if($savecat){
 	$cat =explode(',',$list['subitem']); 
 	//$itype = 'y';
 	//$iyear = 2023;
+	
 	foreach($cat as $cat_i){
 		$info_cat =  $global_array_cat[$cat_i];
 		$sub_cat = explode(',',$info_cat['subitem']);
 		foreach($sub_cat as $sub_cat_i){
-			$array_data[$cat_i][$global_array_cat[$sub_cat_i]['code']]['id'] = $sub_cat_i;
+			$array_datas[$cat_i][$global_array_cat[$sub_cat_i]['code']]['id'] = $sub_cat_i;
 			if($itype == 'y'){
 				$where = ' AND iyear = ' . $iyear;
 				$iyear_last = $iyear - 1;
@@ -69,19 +82,19 @@ if($savecat){
 			
 			$result_last = $db->query('SELECT sum(idata) as total FROM ' . NV_PREFIXLANG . '_' . $module_data . '_data WHERE code = "' . $global_array_cat[$sub_cat_i]['code'] . '" ' . $where_last . '')->fetch();
 			if(!empty($result_last)){
-				$array_data[$cat_i][$global_array_cat[$sub_cat_i]['code']]['last_total'] = $result_last['total'];
+				$array_datas[$cat_i][$global_array_cat[$sub_cat_i]['code']]['last_total'] = $result_last['total'];
 			}else{
-				$array_data[$cat_i][$global_array_cat[$sub_cat_i]['code']]['last_total'] = 0;
+				$array_datas[$cat_i][$global_array_cat[$sub_cat_i]['code']]['last_total'] = 0;
 			}
 			$result = $db->query('SELECT sum(idata) as total FROM ' . NV_PREFIXLANG . '_' . $module_data . '_data WHERE code = "' . $global_array_cat[$sub_cat_i]['code'] . '" ' . $where . '')->fetch();
 			
 			//print_r('SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_data WHERE code = "' . $global_array_cat[$sub_cat_i]['code'] . '" ' . $where . ' ;');
 			//print_r($result);
 			if(!empty($result_last)){
-				$array_data[$cat_i][$global_array_cat[$sub_cat_i]['code']]['total'] = $result['total'];
+				$array_datas[$cat_i][$global_array_cat[$sub_cat_i]['code']]['total'] = $result['total'];
 				
 			}else{
-				$array_data[$cat_i][$global_array_cat[$sub_cat_i]['code']]['total'] = 0;
+				$array_datas[$cat_i][$global_array_cat[$sub_cat_i]['code']]['total'] = 0;
 			}
 		}
 		
@@ -91,7 +104,8 @@ if($savecat){
 //------------------
 // Viết code vào đây
 //------------------
-
+$array_data['cat'] = $array_datas;
+$array_data['year'] = $db->query('SELECT iyear FROM ' . NV_PREFIXLANG . '_' . $module_data . '_data group by iyear')->fetchAll();
 $contents = nv_theme_information_main($array_data);
 
 include NV_ROOTDIR . '/includes/header.php';

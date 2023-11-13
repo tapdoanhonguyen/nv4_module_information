@@ -23,7 +23,7 @@ $lang_module['import'] = 'Nhập liệu';
 $lang_module['save'] = 'Lưu lại';
 
 //Lang for function cat
-$lang_module['cat'] = 'cat';
+$lang_module['cat'] = 'Lĩnh vực';
 $lang_module['add'] = 'Thêm mới';
 $lang_module['edit'] = 'Sửa';
 $lang_module['delete'] = 'Xóa';
@@ -58,3 +58,12 @@ $lang_module['delcat_msg_rows_move'] = 'Hoặc chọn Chuyên mục để di chu
 $lang_module['delcat_msg_cat_permissions'] = 'Bạn không có quyền thực hiện thao tác này';
 $lang_module['delcatandrows'] = 'Xóa Chuyên mục và các bài viết';
 $lang_module['delcat_msg_rows_noselect'] = 'Bạn cần chọn Chuyên mục để di chuyển bài viết tới';
+
+//Lang for function form
+$lang_module['form'] = 'Biểu mẫu';
+$lang_module['catid'] = 'Lĩnh vực';
+$lang_module['error_required_catid'] = 'Lỗi: bạn cần nhập dữ liệu cho Linh vực';
+
+//Lang for function form
+$lang_module['itype'] = 'Itype';
+$lang_module['error_required_itype'] = 'Lỗi: bạn cần nhập dữ liệu cho Itype';

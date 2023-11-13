@@ -92,8 +92,10 @@ if ($nv_Request->isset_request('import', 'post')){
 						$data['imonth'] = trim((string)$data['D']);
 						$data['iyear'] = trim((string)$data['E']);
 						$data['idata'] = trim((string)$data['F']);
-						$stmt = $db->prepare( 'SELECT code FROM ' . NV_PREFIXLANG . '_' . $module_data . '_data WHERE code = :code AND iday = :iday AND imonth = :imonth AND iyear = :iyear' );
+						$data['type'] = trim((string)$data['G']);
+						$stmt = $db->prepare( 'SELECT code FROM ' . NV_PREFIXLANG . '_' . $module_data . '_data WHERE code = :code AND iday = :iday AND imonth = :imonth AND iyear = :iyear AND type = :type' );
 						$stmt->bindParam( ':code', $data['code'], PDO::PARAM_STR );
+						$stmt->bindParam( ':type', $data['type'], PDO::PARAM_STR );
 						$stmt->bindParam( ':iday', $data['iday'], PDO::PARAM_INT );
 						$stmt->bindParam( ':imonth', $data['imonth'], PDO::PARAM_INT );
 						$stmt->bindParam( ':iyear', $data['iyear'], PDO::PARAM_INT );
@@ -105,13 +107,15 @@ if ($nv_Request->isset_request('import', 'post')){
 							try
 							{
 								$stmt = $db->prepare( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_data SET 
-								idata = :idata , code = :code , iday = :iday , imonth = :imonth , iyear = :iyear' );
+								idata = :idata , code = :code , iday = :iday , imonth = :imonth , iyear = :iyear, type = :type' );
 
 								$stmt->bindParam( ':idata', $data['idata'], PDO::PARAM_INT );
 								$stmt->bindParam( ':code', $data['code'], PDO::PARAM_STR );
 								$stmt->bindParam( ':iday', $data['iday'], PDO::PARAM_INT );
 								$stmt->bindParam( ':imonth', $data['imonth'], PDO::PARAM_INT );
 								$stmt->bindParam( ':iyear', $data['iyear'], PDO::PARAM_INT );
+								$stmt->bindParam( ':type', $data['type'], PDO::PARAM_STR );
+								
 								
 								$stmt->execute();
 								//print_r($data['code']);

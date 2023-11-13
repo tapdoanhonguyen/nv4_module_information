@@ -23,18 +23,28 @@
       <div class="col-xs-24 col-sm-24 col-md-24 col-lg-24" style="margin-top: 20px;">
 
         <div style="padding: 20px;background: #EEEEEE">
-
+			<div style="margin-top: 20px;">
+                <select class="form-control" id="iyear" name="iyear">
+					<!-- BEGIN: iyear -->
+					   <option value = "{OPTION.key}" {OPTION.selected}>{OPTION.title}</option>
+					  <!-- END: iyear -->
+                </select>
+            </div>
             <div style="margin-top: 20px;">
                 <select class="form-control" id="cat" name="cat">
 
                 </select>
             </div>
+			<div style="margin-top: 20px;">
+                <select class="form-control" id="iform" name="iform">
 
+                </select>
+            </div>
 
             <div style="text-align: center;">
                 <input type="radio" value="y" name="itype" /> Năm 
-                <input type="radio" value="m" name="itype" /> Tháng/Năm 
-                <input type="radio" value="d" name="itype" /> Ngày/Tháng/Năm 
+                <input type="radio" value="m" name="itype" /> Tháng/Năm  
+                <input type="radio" value="" name="itype" /> Quý
 
             </div>
 			<div style="text-align: center;">
@@ -93,7 +103,7 @@ Tăng trưởng
 
 <script type="text/javascript">
     $('#cat').select2({
-        placeholder:"Chọn danh mục", 
+        placeholder:"Chọn linh vực", 
         ajax: {
             url: script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '={OP}&mod=cat',
             dataType: 'json',
@@ -105,12 +115,41 @@ Tăng trưởng
                 return query;
             },
             processResults: function (data) {
+				
                 return {
                     results: data
                 };
             },
             cache: true
         }
-    })
+    });
+	// Add a change event listener for #cat
+	$('#cat').on('change', function () {
+		// Get the selected value of #cat
+		$('#iform').val(null).trigger('change');
+		var selectedCat = $(this).val();
+		var selectedYear = $('#iyear').val();
+		// Initialize or update Select2 for #year based on the selected value of #cat
+		$('#iform').select2({
+			placeholder: "Chọn biểu mẫu",
+			ajax: {
+				url: script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '={OP}&mod=form&catid=' + selectedCat + '&year=' + selectedYear,
+				dataType: 'json',
+				delay: 250,
+				data: function (params) {
+					var query = {
+						q: params.term
+					}
+					return query;
+				},
+				processResults: function (data) {
+					return {
+						results: data
+					};
+				},
+				cache: true
+			}
+		});
+	});
 </script>
 <!-- END: main -->

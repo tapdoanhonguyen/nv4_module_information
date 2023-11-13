@@ -33,8 +33,8 @@ function nv_theme_information_main($array_data)
     //------------------
     // Viết code vào đây
     //------------------
-	if(!empty($array_data)){
-		foreach ($array_data as $cat_i => $idata){
+	if(!empty($array_data['cat'])){
+		foreach ($array_data['cat'] as $cat_i => $idata){
 			$xtpl->assign('CAT', $global_array_cat[$cat_i]);
 			foreach($idata as $key => $subcat){
 				//print_r($global_array_cat[$subcat['id']]['title']);
@@ -66,6 +66,13 @@ function nv_theme_information_main($array_data)
 			
 			
 			$xtpl->parse('main.cat');
+		}
+	}
+	if(!empty($array_data['year'])){
+		//print_r($array_data['year']);
+		foreach ($array_data['year'] as $key => $idata){
+			$xtpl->assign('OPTION', array('key' => $idata['iyear'], 'title' => $idata['iyear']));
+			$xtpl->parse('main.iyear');
 		}
 	}
     $xtpl->parse('main');
